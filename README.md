@@ -1,26 +1,26 @@
-# Click Game
+# Игра на клики
 
-A simple click game with high score tracking, built with JavaScript frontend and Python Flask backend. Deployable on Render using Docker.
+Простая игра на клики с отслеживанием рекордов, созданная с использованием фронтенда JavaScript и бэкенда Python Flask. Может быть развернута на Render с использованием Docker.
 
-## How to Play
+## Как играть
 
-1. Click the "Start Game" button
-2. Click the green button as many times as you can within 30 seconds
-3. Try to beat your high score!
+1. Нажмите кнопку "Начать игру"
+2. Кликайте по зеленой кнопке столько раз, сколько сможете за 30 секунд
+3. Попробуйте побить свой рекорд!
 
-## Deployment on Render
+## Развертывание на Render
 
-1. Fork this repository to your GitHub account
-2. Create a new Web Service on Render
-3. Connect it to your forked repository
-4. Set the build type to "Docker"
-5. Deploy!
+1. Сделайте форк этого репозитория в свой аккаунт GitHub
+2. Создайте новый веб-сервис на Render
+3. Подключите его к вашему репозиторию
+4. Установите тип сборки как "Docker"
+5. Разверните приложение!
 
-The application will be available at `https://your-app-name.onrender.com`
+Приложение будет доступно по адресу `https://vjk-1.onrender.com/`
 
-## Local Development
+## Локальная разработка
 
-### Backend
+### Бэкенд
 
 ```bash
 cd backend
@@ -28,26 +28,24 @@ pip install -r requirements.txt
 python app.py
 ```
 
-The backend will be running at `http://localhost:5000`
+### Фронтенд
 
-### Frontend
-
-The frontend files are in the [frontend](frontend) directory. During development, you can serve them using any static file server:
+Файлы фронтенда находятся в директории [frontend](frontend). Во время разработки вы можете использовать любой сервер статических файлов:
 
 ```bash
 cd frontend
 npx serve
 ```
 
-Or configure your backend to serve the frontend files as shown in the [app.py](backend/app.py) file.
+Или настройте ваш бэкенд для обслуживания файлов фронтенда, как показано в файле [app.py](backend/app.py).
 
-## API Endpoints
+## Конечные точки API
 
-- `GET /api/highscore` - Get the current high score
-- `POST /api/highscore` - Update the high score (requires JSON body with `highscore` field)
+- `GET /api/highscore` - Получить текущий рекорд
+- `POST /api/highscore` - Обновить рекорд (требуется JSON тело с полем `highscore`)
 
-## Architecture
+## Архитектура
 
-- Frontend: HTML, CSS, JavaScript
-- Backend: Python Flask
-- Deployment: Docker container on Render
+- Фронтенд: HTML, CSS, JavaScript
+- Бэкенд: Python Flask
+- Развертывание: Docker контейнер на Render
