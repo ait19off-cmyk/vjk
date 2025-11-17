@@ -8,7 +8,6 @@ const resetBtn = document.getElementById('reset-btn');
 
 // Game variables
 const PADDLE_WIDTH = 15;
-const PADDLE_HEIGHT = 100;
 const BALL_SIZE = 15;
 const PADDLE_SPEED = 8;
 const INITIAL_BALL_SPEED = 5;
@@ -17,6 +16,9 @@ const WINNING_SCORE = 5; // First to 5 points wins
 // Responsive canvas dimensions
 let canvasWidth = 800;
 let canvasHeight = 400;
+
+// Paddle height - will be adjusted for mobile
+let PADDLE_HEIGHT = 100;
 
 // Game state
 let playerScore = 0;
@@ -65,16 +67,21 @@ function resizeCanvas() {
     if (window.innerWidth <= 768) {
         canvasWidth = Math.min(window.innerWidth - 40, maxWidth);
         canvasHeight = Math.min((canvasWidth / 2), maxHeight);
+        // Make paddles shorter for mobile
+        PADDLE_HEIGHT = 70;
     } else {
         canvasWidth = maxWidth;
         canvasHeight = maxHeight;
+        // Normal paddle height for desktop
+        PADDLE_HEIGHT = 100;
     }
     
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     
-    // Update paddle and ball sizes proportionally
-    // These constants are now calculated dynamically
+    // Update paddle positions based on new height
+    playerY = canvas.height / 2 - PADDLE_HEIGHT / 2;
+    aiY = canvas.height / 2 - PADDLE_HEIGHT / 2;
 }
 
 // Load stats from backend
@@ -308,6 +315,10 @@ function resetBall() {
     // Random direction
     ballSpeedX = INITIAL_BALL_SPEED * (Math.random() > 0.5 ? 1 : -1);
     ballSpeedY = INITIAL_BALL_SPEED * (Math.random() * 2 - 1);
+    
+    // Reset paddle positions
+    playerY = canvas.height / 2 - PADDLE_HEIGHT / 2;
+    aiY = canvas.height / 2 - PADDLE_HEIGHT / 2;
 }
 
 // Draw everything
