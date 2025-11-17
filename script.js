@@ -14,6 +14,10 @@ const PADDLE_SPEED = 8;
 const INITIAL_BALL_SPEED = 5;
 const WINNING_SCORE = 5; // First to 5 points wins
 
+// Responsive canvas dimensions
+let canvasWidth = 800;
+let canvasHeight = 400;
+
 // Game state
 let playerScore = 0;
 let aiScore = 0;
@@ -35,9 +39,13 @@ let ballSpeedY = INITIAL_BALL_SPEED;
 
 // Initialize game
 async function init() {
+    // Set canvas dimensions based on screen size
+    resizeCanvas();
+    
     // Event listeners
     canvas.addEventListener('mousemove', movePaddle);
     canvas.addEventListener('touchmove', movePaddleTouch, { passive: false });
+    window.addEventListener('resize', resizeCanvas);
     startBtn.addEventListener('click', startGame);
     resetBtn.addEventListener('click', resetGame);
     
@@ -46,6 +54,27 @@ async function init() {
     
     // Draw initial state
     draw();
+}
+
+// Resize canvas based on screen size
+function resizeCanvas() {
+    const maxWidth = 800;
+    const maxHeight = 400;
+    
+    // For mobile devices, use smaller dimensions
+    if (window.innerWidth <= 768) {
+        canvasWidth = Math.min(window.innerWidth - 40, maxWidth);
+        canvasHeight = Math.min((canvasWidth / 2), maxHeight);
+    } else {
+        canvasWidth = maxWidth;
+        canvasHeight = maxHeight;
+    }
+    
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    
+    // Update paddle and ball sizes proportionally
+    // These constants are now calculated dynamically
 }
 
 // Load stats from backend
@@ -69,7 +98,9 @@ function movePaddle(e) {
     const root = document.documentElement;
     const mouseY = e.clientY - rect.top - root.scrollTop;
     
-    playerY = mouseY - PADDLE_HEIGHT / 2;
+    // Scale the mouse position to the canvas dimensions
+    const scaledY = (mouseY / rect.height) * canvas.height;
+    playerY = scaledY - PADDLE_HEIGHT / 2;
     
     // Keep paddle on screen
     if (playerY < 0) playerY = 0;
@@ -85,7 +116,9 @@ function movePaddleTouch(e) {
     const touch = e.touches[0];
     const touchY = touch.clientY - rect.top;
     
-    playerY = touchY - PADDLE_HEIGHT / 2;
+    // Scale the touch position to the canvas dimensions
+    const scaledY = (touchY / rect.height) * canvas.height;
+    playerY = scaledY - PADDLE_HEIGHT / 2;
     
     // Keep paddle on screen
     if (playerY < 0) playerY = 0;
@@ -106,6 +139,9 @@ function resetGame() {
     if (animationId) {
         cancelAnimationFrame(animationId);
     }
+    
+    // Reset canvas size
+    resizeCanvas();
     
     // Reset game state
     playerScore = 0;
